@@ -1,57 +1,55 @@
+var mX = -1, mY = -1, lX = -1, lY = -1;
+var canvas, ctx;
 
-
-
+myFunction();
 function myFunction() {
-    var id = setInterval(frameTime, 1000);
-    document.getElementById("demo").innerHTML = "Start.";
     canvas()
-    myMove();
-}
-function frameTime(){
-
-   var date;
-   var h, m, s, hs, ms, ss;
-   date = new Date();
-   h = date.getHours();
-   hs = '' + h;
-   if (h < 10) {
-       hs = '0' + hs;
-   }
-   m = date.getMinutes();
-   ms = '' + m;
-   if (m < 10) {
-       ms = '0' + ms;
-   }
-   s = date.getSeconds();
-   ss = '' + s;
-   if (s < 10) {
-       ss = '0' + ss;
-   }
-   document.getElementById("time").innerHTML =  hs + ':' + ms + ':' + ss;
-   console.log("Ok");
 }
 
-function myMove() {
-    var elem =  document.getElementById("animate");
-    var pos = 0;
-    var id = setInterval(frame, 5);
-    function frame() {
-        if (pos == 350) {
-             clearInterval(id);
+function draw(){
+
+    if (mX!=-1 && mY!=-1){
+
+        if (lX == -1 && lY == -1){
+            //ctx.moveTo(mX, mY);
+            //ctx.beginPath();
+            lX = mX;
+            lY = mY;
         } else {
-             pos++;
-             elem.style.top = pos + 'px';
-             elem.style.left = pos + 'px';
+            if (lX != mX && lY != mY){
+                ctx.beginPath();
+                ctx.moveTo(lX, lY);
+                ctx.lineTo(mX, mY);
+                ctx.closePath();
+                ctx.stroke();
+                //ctx.fillRect(mX, mY, 5, 5);
+                console.log("" + mX + 'x' + mY);
+                lX = mX;
+                lY = mY;
+            }
         }
-     }
+        //lX = mX;
+        //lY = mY;
+
+    }
 }
+
 function canvas(){
-    var canvas = document.getElementById("draw");
-    console.log(canvas)
-    var ctx = canvas.getContext("2d");
-    console.log(ctx)
-    ctx.lineWidth = 5; // толщина линии
-  // x,y,radius,startAngle,endAngle,anticlockwise
-    ctx.arc(200,200,75,0, 2*Math.PI,true);
-    ctx.stroke();
+    canvas = document.getElementById("draw");
+    ctx = canvas.getContext("2d");
+    //ctx.beginPath();
+    canvas.addEventListener('mouseup', function (e) {
+        mX = e.pageX - e.target.offsetLeft,
+        mY = e.pageY - e.target.offsetTop
+    });
+
+    //ctx.lineWidth = 5; // толщина линии
+    ctx.fillRect(1, 1, 498, 498);
+    //ctx.strokeRect(1, 1, 498, 498);
+    ctx.strokeStyle = "green";
+    ctx.fillStyle = "orange";
+    //ctx.font = "24px serif";
+    //ctx.strokeText("Hello", 10, 100);
+
+    setInterval(draw, 5);
 }

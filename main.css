@@ -1,16 +1,5 @@
-#container {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    background: yellow;
-}
-#animate {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    background: red;
-}
+
 #draw {
-    width: 600px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
 }
