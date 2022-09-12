@@ -1,9 +1,9 @@
 var mX = -1, mY = -1, lX = -1, lY = -1;
 var canvas, ctx;
 
-myFunction();
+canvas();
 function myFunction() {
-    canvas()
+
 }
 
 function draw(){
