@@ -7,58 +7,73 @@ boolean command=false;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("welcome");  
   lcd.init();                       
   lcd.backlight();
 }
+
 void loop()
 {
   if (Serial.available()>0){
     String s = Serial.readString();
     s.trim();
-    char command = s.charAt(0);
+    char module = s.charAt(0);
     s = s.substring(1);
-    switch (command)  {
-    // Функции работы с LCD  
-      
-      // Вывод строки
-      case 'a':
-        lcd.print(s);
-        break;
-      // Выкл подсветку
-      case 'b':
-        lcd.noBacklight();
-        break;
-      // Вкл подсветку
-      case 'c':
-        lcd.backlight();
-        break;                
-      // Вкл мигание символа
-      case 'd':
-        lcd.blink_on();
-        break;
-      // Выкл мигание символа
-      case 'e':
-        lcd.blink_off();
-        break;      
-      //Очистить экран
-      case 'f':
-        lcd.clear();
-        break;                  
-      //Включить курсор
-      case 'g':
-        lcd.cursor_on();
-        break;    
-      //Выключить курсор
-      case 'h':
-        lcd.cursor_off();
-        break;  
-      case 'i':
-        int x = s.substring(0,2).toInt();       
-        int y = s.substring(2).toInt();
-        lcd.setCursor(x,y);
-        break;
-    }          
+    switch (module){
+      case 'l':
+        lcdCommand(s);
+        break;        
+    }         
+    Serial.println("OK");          
   }
 }
+
+// Функции работы с LCD 
+void lcdCommand(String cmd)
+{
+  char command = cmd.charAt(0);
+  String s = cmd.substring(1);
+  switch (command)  {
+    // Вывод строки
+    case 'a':
+      lcd.print(s);
+      break;
+    // Выкл подсветку
+    case 'b':
+      lcd.noBacklight();
+      break;
+    // Вкл подсветку
+    case 'c':
+      lcd.backlight();
+      break;                
+    // Вкл мигание символа
+    case 'd':
+      lcd.blink_on();
+      break;
+    // Выкл мигание символа
+    case 'e':
+      lcd.blink_off();
+      break;      
+    //Очистить экран
+    case 'f':
+      lcd.clear();
+      break;                  
+    //Включить курсор
+    case 'g':
+      lcd.cursor_on();
+      break;    
+    //Выключить курсор
+    case 'h':
+      lcd.cursor_off();
+      break;  
+    // Переместить курсор
+    case 'i':
+      int x = s.substring(0,2).toInt();       
+      int y = s.substring(2).toInt();
+      lcd.setCursor(x,y);
+      break;
+  }  
+}
+
+
