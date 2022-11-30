@@ -8,21 +8,10 @@ boolean command=false;
 void setup()
 {
   Serial.begin(9600);
-  while (!Serial){}
-
+  Serial.println("welcome");  
   lcd.init();                       
   lcd.backlight();
 }
-
-void cmd_wrt(String s){
-  int x = s.substring(0,1).toInt();
-  int y = s.substring(1,2).toInt();  
-  
-  lcd.setCursor(x,y);
-  String msg = s.substring(2);
-  lcd.println(msg);    
-}
-
 void loop()
 {
   if (Serial.available()>0){
@@ -31,17 +20,45 @@ void loop()
     char command = s.charAt(0);
     s = s.substring(1);
     switch (command)  {
-      case 'w':
-        cmd_wrt(s);
+    // Функции работы с LCD  
+      
+      // Вывод строки
+      case 'a':
+        lcd.print(s);
         break;
-      case 'f':
+      // Выкл подсветку
+      case 'b':
         lcd.noBacklight();
         break;
-      case 'n':
+      // Вкл подсветку
+      case 'c':
         lcd.backlight();
         break;                
+      // Вкл мигание символа
+      case 'd':
+        lcd.blink_on();
+        break;
+      // Выкл мигание символа
+      case 'e':
+        lcd.blink_off();
+        break;      
+      //Очистить экран
+      case 'f':
+        lcd.clear();
+        break;                  
+      //Включить курсор
+      case 'g':
+        lcd.cursor_on();
+        break;    
+      //Выключить курсор
+      case 'h':
+        lcd.cursor_off();
+        break;  
+      case 'i':
+        int x = s.substring(0,2).toInt();       
+        int y = s.substring(2).toInt();
+        lcd.setCursor(x,y);
+        break;
     }          
-    s = s + "  " + s;
-    Serial.println(s);                   
   }
 }
