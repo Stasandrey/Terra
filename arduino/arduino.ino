@@ -28,17 +28,19 @@ void setup() {
 // Инициализация LCD
   lcd.init();
   lcd.backlight();
-  lcd.print("Hello");
-  delay(2000);
+  //lcd.print("Hello");
+  //delay(2000);
 }
 
 void loop() {
 // Обработка сообщений от Orange Pi Zero
   if (Serial.available()>0){
-    String s = Serial.readString();
-    s.trim();
-    char module = s.charAt(0);
-    s = s.substring(1);
+    char buf[20];
+    char *s=buf;
+    byte n=Serial.readBytesUntil('\n',buf,20);
+    buf[n]='\0';
+    char module = s[0];
+    s++;
     switch (module){
       case 'l':
         lcdCommand(s);
@@ -49,10 +51,14 @@ void loop() {
 }
 
 // Функции работы с LCD 
-void lcdCommand(String cmd)
+void lcdCommand(char *cmd)
 {
-  char command = cmd.charAt(0);
-  String s = cmd.substring(1);
+  char command = cmd[0];
+  char *s= ++cmd;
+  /*lcd.print(command);
+  lcd.print('>');
+  lcd.print(s);
+  lcd.print('|');*/  
   switch (command)  {
     // Вывод строки
     case 'a':
@@ -88,8 +94,9 @@ void lcdCommand(String cmd)
       break;  
     // Переместить курсор
     case 'i':
-      int x = s.substring(0,2).toInt();       
-      int y = s.substring(2).toInt();
+      char sx[3]={s[0],s[1],0}, sy[2]={s[2],0};
+      int x = atoi(sx);       
+      int y = atoi(sy);
       lcd.setCursor(x,y);
       break;
   }  

@@ -10,5 +10,7 @@ result = os.system('echo baziliy | sudo -S chmod 777 %s' % PORT)
 port = serial.Serial(port=PORT, baudrate=SPEED)
 print(port.readline())
 lcd = Lcd(port)
-lcd.print_screen(["1234567890123456",
-                  "ABCDEFGHIJKLMNOP"])
+for i in range(1000):
+    lcd.cursor_to(2,0)
+
+    lcd.print(str(i))
