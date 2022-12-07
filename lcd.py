@@ -28,7 +28,7 @@ class Lcd:
     # "-1"-нет нажатых клавиш
     # "AB"-нажата клавиша A, в буфере еще B клавиш
     def get_keys(self):
-        return self.out('kr')
+        return self.out('kr').decode('ascii').rstrip()
 
     # Вывод полного экрана
     def print_screen(self, data):
