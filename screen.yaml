@@ -1,0 +1,36 @@
+item: 0
+head: True
+data:
+- text: Temperature 1
+  link: True
+  item: 0
+  data:
+
+  - text: Submenu11
+    link: False
+    data: 123456789
+    edit: False
+
+  - text: Submenu12
+    link: False
+    data: asdf
+    edit: False
+
+- text: Temperature 2
+  link: True
+  item: 0
+  data:
+  - text: Submenu21
+    link: False
+    data: asdf
+    edit: False
+
+  - text: Submenu22
+    link: False
+    data: asdf
+    edit: False
+
+- text: Temperature 3
+  link: False
+  data: 789
+  edit: False
