@@ -18,11 +18,14 @@ class Console:
 
     def draw_item(self, item):
         self.screen.lcd.clear()
-        self.screen.lcd.printxy(0, 0, item['text'])
+        s = ' ' * ((16 - len(item['text'])) // 2) + item['text']
+        self.screen.lcd.printxy(0, 0, s)
         if item['link'] is True:
             self.screen.lcd.printxy(0, 1, '      >>>>      ')
         else:
-            pass
+            s = self.data.get_data(item['data']) + ' ' + item['inch']
+            s = ' ' * ((16-len(s)) // 2) + s
+            self.screen.lcd.printxy(0, 1, s)
 
     def run(self, head):
         self.draw_item(head['data'][head['item']])

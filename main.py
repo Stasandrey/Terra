@@ -1,4 +1,4 @@
-
+import random
 import os
 import serial
 from console import Console
@@ -6,10 +6,10 @@ from console import Console
 
 class Data:
     def __init__(self):
-        pass
+        self.data = {'sensor': 45.5}
 
     def get_data(self, name):
-        pass
+        return str(self.data[name])
 
     def read_target(self, name):
         pass
