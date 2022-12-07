@@ -1,7 +1,7 @@
 item: 0
 head: True
 data:
-- text: Temperature 1
+- text: "  Temperature1  "
   link: True
   item: 0
   data:
