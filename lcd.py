@@ -1,13 +1,5 @@
 # Модуль для работы с LCD экраном 1602а (16x2)
 
-LEFT = 0
-RIGHT = 1
-UP = 2
-DOWN = 3
-OK = 4
-ESC = 5
-
-
 class Lcd:
     def __init__(self, prt):
         self.isBacklite = True
@@ -81,7 +73,6 @@ class Lcd:
         s = "li"
         if x < 10:
             s = s + "0"
-
         s = s + str(x) + str(y)
         self.out(s)
 

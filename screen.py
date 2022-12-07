@@ -1,3 +1,5 @@
+# Высокоуровневые функции для работы с консолью
+
 import time
 from lcd import Lcd
 
@@ -18,6 +20,10 @@ class Screen:
         self.port = prt
         self.lcd = Lcd(prt)
 
+# Редактирование вещественного числа
+# x, y   - координаты
+# number - стартовое число
+# field  - длина поля редактирования
     def edit_float(self, x, y, number, field):
         f = str(number)
         symbols = []
@@ -37,7 +43,6 @@ class Screen:
             ans = self.lcd.get_keys()
             button = ans[0]
             print(button)
-        # print(button[0])
             if ans == '-1':
                 continue
             if button == ESC:
@@ -70,7 +75,6 @@ class Screen:
             now = ''
             for item in symbols:
                 now += SYMBOLS[item]
-
             self.lcd.cursor_to(x, y)
             self.lcd.print(now)
             self.lcd.cursor_to(x + start, y)
@@ -79,6 +83,7 @@ class Screen:
                 res[1] = float(res[1])
             except (Exception,):
                 res[0] = False
+        self.lcd.cursor(False)
         return res
 
 
