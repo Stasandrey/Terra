@@ -1,4 +1,13 @@
 # Модуль для работы с LCD экраном 1602а (16x2)
+
+LEFT = 0
+RIGHT = 1
+UP = 2
+DOWN = 3
+OK = 4
+ESC = 5
+
+
 class Lcd:
     def __init__(self, prt):
         self.isBacklite = True
@@ -11,7 +20,15 @@ class Lcd:
     # Вспомогательная функция вывода в порт
     def out(self, s):
         self.port.write(bytes(s + '\n', "ascii"))
-        print(self.port.readline())
+        s = self.port.readline()
+
+        return s
+
+    # Опрос клавиатуры
+    # "-1"-нет нажатых клавиш
+    # "AB"-нажата клавиша A, в буфере еще B клавиш
+    def get_keys(self):
+        return self.out('kr')
 
     # Вывод полного экрана
     def print_screen(self, data):

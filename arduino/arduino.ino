@@ -9,9 +9,10 @@
 #define DOWN 3
 #define OK 4
 #define ESC 5
-char names[6][6] = { "LEFT", "RIGHT", "UP", "DOWN", "OK", "ESC" }; // Названия кнопок
 int keyboard[6] = { 2, 4, 6, 3, 7, 5 };                            // Номера пинов для кнопок
 int kbd_state[6];                                                  // Состояние кнопок (LOW-нажата, HIGH-отпущена)
+char kbd_buf[10];
+char kbd_pointer=-1;
 
 // Создание объекта LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  
@@ -33,7 +34,36 @@ void setup() {
 }
 
 void loop() {
+  readKeyboard();  
+  readSerial();
+}
+
+// Обработка нажатия кнопок
+void readKeyboard(){
+  for (int i = 0; i < 6; i++) {
+    int state = digitalRead(keyboard[i]);
+    if (state == HIGH && kbd_state[i] == LOW) {
+      kbd_state[i] = HIGH;
+    }
+    if (state == LOW && kbd_state[i] == HIGH) {
+      delay(50);
+      if (digitalRead(keyboard[i]) == LOW) {
+        kbd_state[i] = LOW;
+        kbd_pointer++;
+        kbd_buf[kbd_pointer]=i;
+        if (kbd_pointer>9){
+          for (int i=0;i<9;i++){
+            kbd_buf[i]=kbd_buf[i+1];            
+          }
+          kbd_pointer--;
+        }                        
+      }
+    }
+  }
+}
+
 // Обработка сообщений от Orange Pi Zero
+void readSerial(){
   if (Serial.available()>0){
     char buf[20];
     char *s=buf;
@@ -41,13 +71,41 @@ void loop() {
     buf[n]='\0';
     char module = s[0];
     s++;
+    
     switch (module){
       case 'l':
         lcdCommand(s);
+        Serial.println("OK");
         break;        
+      case 'k':
+        kbdCommand(s);
+        break;
     }         
-    Serial.println("OK");          
+             
   }
+}
+
+// Функции работы с клавиатурой
+void kbdCommand(char *cmd){
+  char command = cmd[0];
+  char *s= ++cmd;
+  char res[5] = "-1\n";
+  
+  
+  switch (command){
+    case 'r':
+      if (kbd_pointer>-1){
+        char sa[3];
+        itoa(kbd_buf[kbd_pointer], sa, 10);
+        res[0]=sa[0];
+        kbd_pointer--;
+        itoa(kbd_pointer+1, sa, 10);
+        res[1]=sa[0];
+        res[2]='\n';
+      }
+      break;  
+  }      
+  Serial.print(res);
 }
 
 // Функции работы с LCD 
@@ -55,10 +113,6 @@ void lcdCommand(char *cmd)
 {
   char command = cmd[0];
   char *s= ++cmd;
-  /*lcd.print(command);
-  lcd.print('>');
-  lcd.print(s);
-  lcd.print('|');*/  
   switch (command)  {
     // Вывод строки
     case 'a':
@@ -102,23 +156,8 @@ void lcdCommand(char *cmd)
   }  
 }
 
-// Функции работы с клавиатурой
+
+ 
 
 
 
-
-// Обработка нажатия кнопок
-void buttonRead(){
-  for (int i = 0; i < 6; i++) {
-    int state = digitalRead(keyboard[i]);
-    if (state == HIGH && kbd_state[i] == LOW) {
-      kbd_state[i] = HIGH;
-    }
-    if (state == LOW && kbd_state[i] == HIGH) {
-      delay(50);
-      if (digitalRead(keyboard[i]) == LOW) {
-        kbd_state[i] = LOW;
-      }
-    }
-  }
-}
