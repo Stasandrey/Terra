@@ -1,19 +1,21 @@
 item: 0
 head: True
 data:
-- text: "  Temperature1  "
+- text: "Temperature"
   link: True
   item: 0
   data:
 
-  - text: Submenu11
+  - text: "Akkumulator"
     link: False
-    data: 12356
+    data: "akkum_temp"
+    inch: "C"
     edit: False
 
-  - text: Submenu12
+  - text: "Levels"
     link: False
-    data: asdf
+    data: "levels"
+    inch: ""
     edit: False
 
 - text: Temperature 2

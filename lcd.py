@@ -16,6 +16,15 @@ class Lcd:
 
         return s
 
+    # Опрос датчиков уровня
+    def get_levels(self):
+        s = self.out('2').decode('ascii').rstrip()
+        print(s)
+        return s
+    # Опрос датчиков 1-Wire
+    def get_1_wire(self):
+        return float(self.out('1').rstrip())
+
     # Опрос клавиатуры
     # "-1"-нет нажатых клавиш
     # "AB"-нажата клавиша A, в буфере еще B клавиш
