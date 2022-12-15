@@ -26,7 +26,8 @@ class Screen:
 # field  - длина поля редактирования
     def edit_float(self, number):
         f = str(number)
-        field = len(f) + 3
+        field = len(f) + 4
+        f = 4 * ' ' + f
         symbols = []
         for item in f:
             symbols.append(SYMBOLS_CODES[item])
@@ -48,7 +49,6 @@ class Screen:
             self.lcd.wait(200)
             ans = self.lcd.get_keys()
             button = ans[0]
-            print(button)
             if ans == '-1':
                 continue
             count = 0
@@ -70,7 +70,7 @@ class Screen:
                 if start < 0:
                     start = field - 1
                     self.lcd.cursor_to(start, 1)
-                continue
+                    continue
             if button == UP:
                 symbols[start] += 1
                 if symbols[start] >= SYM_NUM:

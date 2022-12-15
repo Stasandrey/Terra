@@ -8,6 +8,8 @@ class Data:
                       'bak_levels':  '___',
                       'bak_temp':    0,
                       'bak_temp_target': 5.0,
+                      'bak_heater': 'off',
+                      'bak_fooler': 'off',
                       # Теплоаккумулятор
                       'akkum_level': '_',
                       'akkum_temp':  0,

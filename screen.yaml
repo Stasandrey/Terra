@@ -1,32 +1,50 @@
 item: 0
 head: True
 data:
+
 - text: "BAK"
   link: True
   item: 0
   data:
+
   - text: "TEMPERATURE"
     link: False
     data: "bak_temp"
     target: "bak_temp_target"
     inch: "C"
     edit: True
+
   - text: "LEVELS A L H"
     link: False
     data: "bak_levels"
     inch: ""
     edit: False
 
+  - text: "BAK HEATER"
+    link: False
+    data: "bak_heater"
+    inch: ""
+    edit: False
+
+  - text: "BAK FOOLER"
+    link: False
+    data: "bak_fooler"
+    inch: ""
+    edit: False
+
+
 - text: "AKKUMULATOR"
   link: True
   item: 0
   data:
+
   - text: "TEMPERATURE"
     link: False
     data: "akkum_temp"
     target: "akkum_temp_target"
     inch: "C"
     edit: True
+
   - text: "LEVEL"
     link: False
     data: "akkum_level"
