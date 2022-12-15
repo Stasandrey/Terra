@@ -2,7 +2,6 @@
 
 import screen
 import yaml
-import time
 
 
 class Console:
@@ -31,13 +30,19 @@ class Console:
         self.draw_item(head['data'][head['item']])
         work = True
         number = len(head['data'])
+        count = 0
         while work is True:
+            count += 1
             # Получение информации с датчиков
-            self.data.set_data('levels', self.screen.lcd.get_levels())
-            self.data.set_data('akkum_temp', self.screen.lcd.get_1_wire())
+            if count > 10:
+                count = 0
+                levels_all = self.screen.lcd.get_levels()
+                self.data.set_data('bak_levels', levels_all[0:3])
+                self.data.set_data('akkum_level', levels_all[3])
+                self.data.set_data('bak_temp', self.screen.lcd.get_1_wire())
+                self.draw_item(head['data'][head['item']])
             self.screen.lcd.wait(200)
             # Обработка нажатия кнопок
-            self.draw_item(head['data'][head['item']])
             button = self.screen.lcd.get_keys()
             if button == '-1':
                 continue
@@ -58,6 +63,7 @@ class Console:
                 head['item'] -= 1
                 if head['item'] < 0:
                     head['item'] = number - 1
+            self.draw_item(head['data'][head['item']])
 
 
 if __name__ == "__main__":

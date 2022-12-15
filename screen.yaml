@@ -1,39 +1,32 @@
 item: 0
 head: True
 data:
-- text: "Temperature"
+- text: "BAK"
   link: True
   item: 0
   data:
+  - text: "TEMPERATURE"
+    link: False
+    data: "bak_temp"
+    inch: "C"
+    edit: False
+  - text: "LEVELS A L H"
+    link: False
+    data: "bak_levels"
+    inch: ""
+    edit: False
 
-  - text: "Akkumulator"
+- text: "AKKUMULATOR"
+  link: True
+  item: 0
+  data:
+  - text: "TEMPERATURE"
     link: False
     data: "akkum_temp"
     inch: "C"
     edit: False
-
-  - text: "Levels"
+  - text: "LEVEL"
     link: False
-    data: "levels"
+    data: "akkum_level"
     inch: ""
     edit: False
-
-- text: Temperature 2
-  link: True
-  item: 0
-  data:
-  - text: Submenu21
-    link: False
-    data: asdf
-    edit: False
-
-  - text: Submenu22
-    link: False
-    data: asdf
-    edit: False
-
-- text: Temperature 3
-  link: False
-  data: "sensor"
-  inch: "C"
-  edit: False

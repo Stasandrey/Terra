@@ -1,23 +1,7 @@
 import os
 import serial
 from console import Console
-
-
-class Data:
-    def __init__(self):
-        self.data = {'levels': '0000', 'akkum_temp': 0, 'sensor': 45.5}
-
-    def set_data(self, name, value):
-        self.data[name] = value
-
-    def get_data(self, name):
-        return str(self.data[name])
-
-    def read_target(self, name):
-        pass
-
-    def write_target(self, name):
-        pass
+from data import Data
 
 
 PORT = "/dev/ttyUSB0"
@@ -28,5 +12,4 @@ print(port.readline())
 
 data = Data()
 console = Console("screen.yaml", port, data)
-# print(console.head)
 console.run(console.head)

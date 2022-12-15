@@ -68,13 +68,12 @@ void setup() {
 }
 
 void loop() {
-  // unsigned long now = millis();
+  // Реализация задерки в миллисекундах
   if (is_wait == 0){
     if (abs( millis()-last ) > slp){
       is_wait = -1;
       Serial.println("OK");      
     }
-  
   }
   readKeyboard();  
   readSerial();
@@ -157,8 +156,6 @@ void readSerial(){
       // Задержка на n миллисекунд
       case '3':
         int ms = atoi(s);
-        lcd.setCursor(0,1);
-        lcd.print(ms);
         slp = ms;
         is_wait=0;
         last = millis();        

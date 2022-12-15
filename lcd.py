@@ -18,7 +18,6 @@ class Lcd:
     # Задержка на n миллисекунд
     def wait(self, n):
         s = '3' + str(n)
-
         self.out(s)
 
     # Опрос датчиков уровня
