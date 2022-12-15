@@ -20,17 +20,30 @@ data:
     inch: ""
     edit: False
 
-  - text: "BAK HEATER"
+  - text: "HEATER"
     link: False
     data: "bak_heater"
     inch: ""
     edit: False
 
-  - text: "BAK FOOLER"
+  - text: "FOOLER KLAPAN"
     link: False
-    data: "bak_fooler"
+    data: "bak_fooler_klapan"
     inch: ""
     edit: False
+
+  - text: "FOOLER KRAN"
+    link: False
+    data: "bak_fooler_kran"
+    inch: ""
+    edit: False
+
+  - text: "KRAN CLOSE TIME"
+    link: False
+    data: "bak_fooler_time"
+    target: "bak_fooler_time"
+    inch: ""
+    edit: True
 
 
 - text: "AKKUMULATOR"
@@ -48,5 +61,18 @@ data:
   - text: "LEVEL"
     link: False
     data: "akkum_level"
+    inch: ""
+    edit: False
+
+  - text: "DAVLENIE"
+    link: False
+    data: "akkum_power"
+    target: "akkum_power_target"
+    inch: "BAR"
+    edit: True
+
+  - text: "SBROS"
+    link: False
+    data: "akkum_sbros"
     inch: ""
     edit: False
