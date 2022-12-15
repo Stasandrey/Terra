@@ -1,6 +1,5 @@
 # Высокоуровневые функции для работы с консолью
 
-import time
 from lcd import Lcd
 
 LEFT = '0'
@@ -13,6 +12,7 @@ SYMBOLS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ' ']
 SYMBOLS_CODES = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
                  '6': 6, '7': 7, '8': 8, '9': 9, '.': 10, ' ': 11}
 SYM_NUM = 12
+MAX_EDIT_TIME = 50   # Время до выхода, если не нажимаются кнопки
 
 
 class Screen:
@@ -24,27 +24,34 @@ class Screen:
 # x, y   - координаты
 # number - стартовое число
 # field  - длина поля редактирования
-    def edit_float(self, x, y, number, field):
+    def edit_float(self, number):
         f = str(number)
+        field = len(f) + 3
         symbols = []
         for item in f:
             symbols.append(SYMBOLS_CODES[item])
         now = f
         start = 0
         res = [False, now]
-        self.lcd.cursor_to(x, y)
+        self.lcd.printxy(0, 1, "                ")
+        self.lcd.cursor_to(0, 1)
         s = str(now)
         self.lcd.print(s)
         self.lcd.cursor(True)
-        self.lcd.cursor_to(x + start, y)
+        self.lcd.cursor_to(start, 1)
+        count = 0
         work = True
         while work:
-            time.sleep(1)
+            count += 1
+            if count > MAX_EDIT_TIME:
+                work = False
+            self.lcd.wait(200)
             ans = self.lcd.get_keys()
             button = ans[0]
             print(button)
             if ans == '-1':
                 continue
+            count = 0
             if button == ESC:
                 work = False
                 continue
@@ -56,13 +63,13 @@ class Screen:
                 start += 1
                 if start > field - 1:
                     start = 0
-                    self.lcd.cursor_to(x + start, y)
+                    self.lcd.cursor_to(start, 1)
                     continue
             if button == LEFT:
                 start -= 1
                 if start < 0:
                     start = field - 1
-                    self.lcd.cursor_to(x + start, y)
+                    self.lcd.cursor_to(start, 1)
                 continue
             if button == UP:
                 symbols[start] += 1
@@ -75,9 +82,9 @@ class Screen:
             now = ''
             for item in symbols:
                 now += SYMBOLS[item]
-            self.lcd.cursor_to(x, y)
+            self.lcd.cursor_to(0, 1)
             self.lcd.print(now)
-            self.lcd.cursor_to(x + start, y)
+            self.lcd.cursor_to(start, 1)
         if res[0]:
             try:
                 res[1] = float(res[1])

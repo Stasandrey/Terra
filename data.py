@@ -7,9 +7,11 @@ class Data:
                       # Расширительный бак
                       'bak_levels':  '___',
                       'bak_temp':    0,
+                      'bak_temp_target': 5.0,
                       # Теплоаккумулятор
                       'akkum_level': '_',
-                      'akkum_temp':  0}
+                      'akkum_temp':  0,
+                      'akkum_temp_target': 90.0}
 
     # Установка текущего значения для тэга
     def set_data(self, name, value):

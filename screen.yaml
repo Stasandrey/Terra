@@ -8,8 +8,9 @@ data:
   - text: "TEMPERATURE"
     link: False
     data: "bak_temp"
+    target: "bak_temp_target"
     inch: "C"
-    edit: False
+    edit: True
   - text: "LEVELS A L H"
     link: False
     data: "bak_levels"
@@ -23,8 +24,9 @@ data:
   - text: "TEMPERATURE"
     link: False
     data: "akkum_temp"
+    target: "akkum_temp_target"
     inch: "C"
-    edit: False
+    edit: True
   - text: "LEVEL"
     link: False
     data: "akkum_level"

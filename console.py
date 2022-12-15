@@ -54,7 +54,12 @@ class Console:
                 if head['data'][head['item']]['link'] is True:
                     self.run(head['data'][head['item']])
                 else:
-                    pass
+                    if head['data'][head['item']]['edit'] is True:
+                        result = self.screen.edit_float(
+                                        self.data.get_data(head['data'][head['item']]['target']))
+                        if result[0] is True:
+                            self.data.set_data(head['data'][head['item']]['target'], result[1])
+                        print(self.data.data)
             if button == screen.DOWN:
                 head['item'] += 1
                 if head['item'] > number - 1:
