@@ -31,15 +31,12 @@ class Console:
         self.draw_item(head['data'][head['item']])
         work = True
         number = len(head['data'])
-        count = 0
         while work is True:
-            count += 1
             # Получение информации с датчиков
-            count = 0
             self.data.set_data('levels', self.screen.lcd.get_levels())
             self.data.set_data('akkum_temp', self.screen.lcd.get_1_wire())
+            self.screen.lcd.wait(200)
             # Обработка нажатия кнопок
-            time.sleep(1)
             self.draw_item(head['data'][head['item']])
             button = self.screen.lcd.get_keys()
             if button == '-1':

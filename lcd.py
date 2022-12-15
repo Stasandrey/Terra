@@ -13,18 +13,21 @@ class Lcd:
     def out(self, s):
         self.port.write(bytes(s + '\n', "ascii"))
         s = self.port.readline()
-
         return s
+
+    # Задержка на n миллисекунд
+    def wait(self, n):
+        s = '3' + str(n)
+
+        self.out(s)
 
     # Опрос датчиков уровня
     def get_levels(self):
-        s = self.out('2').decode('ascii').rstrip()
-        print(s)
-        return s
+        return self.out('2').decode('ascii').rstrip()
 
     # Опрос датчиков 1-Wire
     def get_1_wire(self):
-        return float(self.out('1').rstrip())
+        return float(self.out('1').decode("ascii").rstrip())
 
     # Опрос клавиатуры
     # "-1"-нет нажатых клавиш

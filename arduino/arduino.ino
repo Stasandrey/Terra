@@ -22,6 +22,11 @@
 #define OK 4
 #define ESC 5
 
+// Переменные для задержки
+unsigned long last=0;
+int is_wait = -1;
+int slp = 0;
+
 //Переменные для датчиков уровня
 int levels[4] = { 9, 10, 11, 12 };
 int level_state[4];
@@ -64,6 +69,13 @@ void setup() {
 
 void loop() {
   // unsigned long now = millis();
+  if (is_wait == 0){
+    if (abs( millis()-last ) > slp){
+      is_wait = -1;
+      Serial.println("OK");      
+    }
+  
+  }
   readKeyboard();  
   readSerial();
 }
@@ -82,6 +94,7 @@ char* readLevels(char s[5]){
 
 // Обработка датчиков 1 Ware
 char* read1Wire(char s[10]){
+  for (int i=0; i<10; i++) s[i]=0;
   sensor.requestTemperatures(); 
   float temp=sensor.getTempCByIndex(0);
   dtostrf(temp, 7, 1, s); 
@@ -124,24 +137,39 @@ void readSerial(){
     s++;
     char buffer[10];
     switch (module){
+      // Вывод на LCD
       case 'l':
         lcdCommand(s);
         Serial.println("OK");
         break;        
+      // Чтение нажатых клавиш
       case 'k':
         kbdCommand(s);
         break;
+      // Работа с 1-Wire
       case '1':
         Serial.println(read1Wire(buffer));
         break;              
+      // Чтение датчиков уровня
       case '2':
         Serial.println(readLevels(buffer));
+        break;
+      // Задержка на n миллисекунд
+      case '3':
+        int ms = atoi(s);
+        lcd.setCursor(0,1);
+        lcd.print(ms);
+        slp = ms;
+        is_wait=0;
+        last = millis();        
         break;
     }         
   }
 }
 
 // Функции работы с клавиатурой
+// Возвращает строку 'AB\n', A-код кнопки, B-кол-во оставшихся нажатий.
+// Если нажатий нет, возвращает '-1'
 void kbdCommand(char *cmd){
   char command = cmd[0];
   char *s= ++cmd;
