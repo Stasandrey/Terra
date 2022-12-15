@@ -1,4 +1,3 @@
-# import random
 import os
 import serial
 from console import Console

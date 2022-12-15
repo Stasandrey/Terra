@@ -21,6 +21,7 @@ class Lcd:
         s = self.out('2').decode('ascii').rstrip()
         print(s)
         return s
+
     # Опрос датчиков 1-Wire
     def get_1_wire(self):
         return float(self.out('1').rstrip())

@@ -3,6 +3,7 @@
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
+
 // Константы для датчиков уровня
 #define LEVELS_COUNT  4
 #define AKKUMULATOR_L 0
@@ -12,8 +13,6 @@
 
 // Константы для 1-WARE
 #define ONE_WIRE_BUS 8
-#define TEMPERATURE_PRECISION 12 
-#define REQUEST_TIME 2000
 
 // Константы для клавиатуры
 #define LEFT 0
@@ -28,12 +27,10 @@ int levels[4] = { 9, 10, 11, 12 };
 int level_state[4];
 
 // Переменные для 1-Wire
-unsigned long lastRequest = 0;
 
 // Переменные для клавиатуры
-int keyboard[6] = { 2, 4, 6, 3, 7, 5 };                            // Номера пинов для кнопок
-int kbd_state[6];                                                  // Состояние кнопок (LOW-нажата, HIGH-отпущена)
-char l[20];
+int keyboard[6] = { 2, 4, 6, 3, 7, 5 };                            
+int kbd_state[6];                                                  
 char kbd_buf[10];
 char kbd_pointer=-1;
 
@@ -46,28 +43,27 @@ DallasTemperature sensor(&oneWire);
 DeviceAddress Thermometer;
 
 void setup() {
-// Инициализация COM порта
+  // Инициализация COM порта
   Serial.begin(115200);
   Serial.println("welcome");
-// Инициализация датчиков уровня
+  // Инициализация датчиков уровня
   for (int i = 0; i<LEVELS_COUNT; i++){
     pinMode(levels[i], INPUT);        
   }
-// Инициализация клавиатуры  
+  // Инициализация клавиатуры  
   for (int i = 0; i < 6; i++) {
     pinMode(keyboard[i], INPUT_PULLUP);
     kbd_state[i] = HIGH;
   }
-// Инициализация LCD
+  // Инициализация LCD
   lcd.init();
   lcd.backlight();
-
-// Инициализация шины 1-Ware
+  // Инициализация шины 1-Ware
   sensor.begin(); 
 }
 
 void loop() {
-  unsigned long now = millis();
+  // unsigned long now = millis();
   readKeyboard();  
   readSerial();
 }
@@ -76,9 +72,9 @@ void loop() {
 char* readLevels(char s[5]){
   for (int i=0;i<LEVELS_COUNT;i++){
     if (digitalRead(levels[i]) == HIGH)
-      s[i]='1';
+      s[i]='#';
     else 
-      s[i]='0';          
+      s[i]='_';          
   }  
   s[4]='\0';
   return s;
@@ -86,13 +82,14 @@ char* readLevels(char s[5]){
 
 // Обработка датчиков 1 Ware
 char* read1Wire(char s[10]){
-  sensor.requestTemperatures(); // считывание значение температуры
+  sensor.requestTemperatures(); 
   float temp=sensor.getTempCByIndex(0);
   dtostrf(temp, 7, 1, s); 
   return s;
 }
 
 // Обработка нажатия кнопок
+// Используется кольцевой буфер на 8 символов
 void readKeyboard(){
   for (int i = 0; i < 6; i++) {
     int state = digitalRead(keyboard[i]);
@@ -141,7 +138,6 @@ void readSerial(){
         Serial.println(readLevels(buffer));
         break;
     }         
-             
   }
 }
 
@@ -150,13 +146,9 @@ void kbdCommand(char *cmd){
   char command = cmd[0];
   char *s= ++cmd;
   char res[5] = "-1\n";
-  
-  
   switch (command){
     case 'r':
-      
       if (kbd_pointer>-1){
-        
         char sa[3];
         itoa(kbd_buf[kbd_pointer], sa, 10);
         res[0]=sa[0];

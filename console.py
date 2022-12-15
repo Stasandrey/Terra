@@ -35,7 +35,6 @@ class Console:
         while work is True:
             count += 1
             # Получение информации с датчиков
-            #if count > 1:
             count = 0
             self.data.set_data('levels', self.screen.lcd.get_levels())
             self.data.set_data('akkum_temp', self.screen.lcd.get_1_wire())
@@ -62,7 +61,6 @@ class Console:
                 head['item'] -= 1
                 if head['item'] < 0:
                     head['item'] = number - 1
-
 
 
 if __name__ == "__main__":
