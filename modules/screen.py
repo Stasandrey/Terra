@@ -1,22 +1,23 @@
 # Высокоуровневые функции для работы с консолью
 
-from lcd import Lcd
+from modules.lcd import Lcd
 
-LEFT = '0'
-RIGHT = '1'
-UP = '2'
-DOWN = '3'
-OK = '4'
-ESC = '5'
 SYMBOLS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ' ']
 SYMBOLS_CODES = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
                  '6': 6, '7': 7, '8': 8, '9': 9, '.': 10, ' ': 11}
 SYM_NUM = 12
-MAX_EDIT_TIME = 50   # Время до выхода, если не нажимаются кнопки
+MAX_EDIT_TIME = 50  # Время до выхода, если не нажимаются кнопки
 
 
 class Screen:
     def __init__(self, prt):
+        self.LEFT = '0'
+        self.RIGHT = '1'
+        self.UP = '2'
+        self.DOWN = '3'
+        self.OK = '4'
+        self.ESC = '5'
+
         self.port = prt
         self.lcd = Lcd(prt)
 
@@ -52,30 +53,30 @@ class Screen:
             if ans == '-1':
                 continue
             count = 0
-            if button == ESC:
+            if button == self.ESC:
                 work = False
                 continue
-            if button == OK:
+            if button == self.OK:
                 work = False
                 res = [True, now]
                 continue
-            if button == RIGHT:
+            if button == self.RIGHT:
                 start += 1
                 if start > field - 1:
                     start = 0
                     self.lcd.cursor_to(start, 1)
                     continue
-            if button == LEFT:
+            if button == self.LEFT:
                 start -= 1
                 if start < 0:
                     start = field - 1
                     self.lcd.cursor_to(start, 1)
                     continue
-            if button == UP:
+            if button == self.UP:
                 symbols[start] += 1
                 if symbols[start] >= SYM_NUM:
                     symbols[start] = 0
-            if button == DOWN:
+            if button == self.DOWN:
                 symbols[start] -= 1
                 if symbols[start] < 0:
                     symbols[start] = SYM_NUM - 1

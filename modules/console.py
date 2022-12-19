@@ -1,6 +1,7 @@
 # Навигация по меню. Самый верхний уровень работы с пользователем.
 
-import screen
+from modules.screen import Screen
+from modules.automation import Automation
 import yaml
 
 
@@ -9,8 +10,11 @@ class Console:
         self.data = data
         self.port = prt
         self.name = name
-        self.screen = screen.Screen(prt)
+        self.screen = Screen(prt)
+        self.automation = Automation(self.data)
         self.screen.lcd.print("Reading YAML file.")
+        self.error = False
+
         with open(self.name) as f:
             self.head = yaml.safe_load(f)
         self.num = 0
@@ -31,8 +35,11 @@ class Console:
         work = True
         number = len(head['data'])
         count = 0
+        cycle = 0
         while work is True:
+            self.data.set_data('error', 'False')
             count += 1
+
             # Получение информации с датчиков
             if count > 10:
                 count = 0
@@ -42,15 +49,41 @@ class Console:
                 self.data.set_data('bak_temp', self.screen.lcd.get_1_wire())
                 self.draw_item(head['data'][head['item']])
             self.screen.lcd.wait(200)
+
+            # Запуск автоматизаций
+            self.automation.run()
+
+            # Индикация аварии
+            error = self.data.get_data('error')
+            if error == 'True':
+                print("Alarm")
+                if self.error is False:
+                    self.error = True
+                    cycle = 0
+                else:
+                    cycle += 1
+                    if cycle > 7:
+                        cycle = 0
+                        if self.screen.lcd.isBacklite is True:
+                            self.screen.lcd.backlite(False)
+                        else:
+                            self.screen.lcd.backlite(True)
+
+            else:
+                print('No alarm')
+                cycle = 0
+                self.error = False
+                self.screen.lcd.backlite(True)
+
             # Обработка нажатия кнопок
             button = self.screen.lcd.get_keys()
             if button == '-1':
                 continue
             button = button[0]
-            if button == screen.ESC:
+            if button == self.screen.ESC:
                 work = False
                 continue
-            if button == screen.OK:
+            if button == self.screen.OK:
                 if head['data'][head['item']]['link'] is True:
                     self.run(head['data'][head['item']])
                 else:
@@ -60,11 +93,11 @@ class Console:
                         if result[0] is True:
                             self.data.set_data(head['data'][head['item']]['target'], result[1])
                         print(self.data.data)
-            if button == screen.DOWN:
+            if button == self.screen.DOWN:
                 head['item'] += 1
                 if head['item'] > number - 1:
                     head['item'] = 0
-            if button == screen.UP:
+            if button == self.screen.UP:
                 head['item'] -= 1
                 if head['item'] < 0:
                     head['item'] = number - 1

@@ -26,6 +26,18 @@ data:
     inch: ""
     edit: False
 
+  - text: "HEATER ON TIME"
+    link: False
+    data: "bak_heater_on_time"
+    inch: "c"
+    edit: False
+
+  - text: "HTR ON TOTL TIME"
+    link: False
+    data: "bak_heater_on_time_total"
+    inch: "c"
+    edit: False
+
   - text: "FOOLER KLAPAN"
     link: False
     data: "bak_fooler_klapan"
@@ -36,6 +48,18 @@ data:
     link: False
     data: "bak_fooler_kran"
     inch: ""
+    edit: False
+
+  - text: "PODPITKA ON TIME"
+    link: False
+    data: "bak_podpitka_on_time"
+    inch: "c"
+    edit: False
+
+  - text: "POD ON TOTL TIME"
+    link: False
+    data: "bak_podpitka_on_time_total"
+    inch: "c"
     edit: False
 
   - text: "KRAN CLOSE TIME"
