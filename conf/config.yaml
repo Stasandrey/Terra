@@ -1,0 +1,15 @@
+item: 0
+head: True
+data:
+
+- text: "BAK"
+  link: True
+  item: 0
+  data:
+
+  - text: "TEMPERATURE"
+    link: False
+    data: "bak_temp"
+    target: "bak_temp_target"
+    inch: "C"
+    edit: True

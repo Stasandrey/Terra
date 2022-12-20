@@ -1,7 +1,22 @@
 # Модуль хранения тэгов
+import yaml
+
+
 class Data:
 
-    def __init__(self):
+    def __init__(self, name):
+
+        self.name = name
+        self.tree = []
+        with open(self.name) as f:
+            self.head = yaml.safe_load(f)
+        print(self.head)
+        # Читает теги узла
+
+        def read_item(item):
+            for it
+
+        read_item(self.head)
         # Описание всех входов/выходов
         self.data = {
                       # Мигание экрана при аварии

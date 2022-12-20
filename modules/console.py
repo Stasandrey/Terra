@@ -56,7 +56,6 @@ class Console:
             # Индикация аварии
             error = self.data.get_data('error')
             if error == 'True':
-                print("Alarm")
                 if self.error is False:
                     self.error = True
                     cycle = 0
@@ -70,7 +69,6 @@ class Console:
                             self.screen.lcd.backlite(True)
 
             else:
-                print('No alarm')
                 cycle = 0
                 self.error = False
                 self.screen.lcd.backlite(True)
