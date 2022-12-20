@@ -1,15 +1,12 @@
-item: 0
-head: True
-data:
+objects:
+  BAK:
+    current_temp:
+      visible: True
+      value: 0.0
+      target: False
 
-- text: "BAK"
-  link: True
-  item: 0
-  data:
-
-  - text: "TEMPERATURE"
-    link: False
-    data: "bak_temp"
-    target: "bak_temp_target"
-    inch: "C"
-    edit: True
+  KOTEL:
+    temperature:
+      visible: True
+      value: 10.0
+      target: False

@@ -1,13 +1,18 @@
-import os
+# import os
 
-import serial
+# import serial
 
 # from modules.console import Console
 from modules.data import Data
 
 
-data = Data('conf/configuration.yaml')
+data = Data('conf/config.yaml')
 
+print(data.objects)
+
+print(data.tags)
+
+print(data.values)
 # PORT = "/dev/ttyUSB0"
 # SPEED = 115200
 # result = os.system('echo baziliy | sudo -S chmod 666 %s' % PORT)
