@@ -1,6 +1,6 @@
 # import os
 
-# import serial
+import serial
 
 # from modules.console import Console
 from modules.data import Data
